@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Hugging Face and PyTorch caches/models
+.cache/
+huggingface/
+checkpoints/
+*.bin
+*.pt
+*.pth
+*.safetensors
