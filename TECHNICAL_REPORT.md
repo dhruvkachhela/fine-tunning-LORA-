@@ -21,7 +21,7 @@ The primary research objective is to teach the model **schema-linking** (alignin
 Unlike WikiSQL, which uses single-table databases and overlapping train/test schemas, **Spider** requires cross-database generalization. In Spider, the databases in the validation set have no overlap with those in the training set. To generalize, the model must read the schema dynamically, identify primary-foreign key relationships, and link them to the question.
 
 ### 2.2 Data Pipeline Implementation
-Since Spider's base release does not contain raw text representations of schemas, we integrate a helper schema dataset `richardr1126/spider-schema`. The preprocessing pipeline is implemented in [fine_tune.py](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/fine_tune.py) through the following functions:
+Since Spider's base release does not contain raw text representations of schemas, we integrate a helper schema dataset `richardr1126/spider-schema`. The preprocessing pipeline is implemented in the Jupyter notebook [fine-tune-kaggle.ipynb](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/fine-tune-kaggle.ipynb) through the following functions:
 
 1. **`format_schema(db_id, schema_lookup)`**: Extracts the list of tables, columns, and foreign key rules for a database.
    * *Example Output:* `Schema: employee: id (number), name (text), dept_id (number) | department: id (number), name (text) ... Foreign Keys: employee: dept_id equals department: id`
@@ -97,23 +97,17 @@ To prevent severe overfitting, training was terminated early, and the weights fr
 
 ## 5. Codebase Walkthrough
 
-The codebase is organized into four main scripts:
+The codebase is organized as follows:
 
-### 5.1 [fine_tune.py](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/fine_tune.py) (The Training Pipeline)
-* Loads the Hugging Face tokenizer and Qwen model.
-* Defines data mapper functions (`format_schema`, `build_prompt`, `format_example`) to merge database definitions with NL questions.
-* Wraps the tokenized inputs into the ChatML format.
-* Attaches the `LoraConfig` using `peft.get_peft_model`.
-* Runs the SFT Trainer, monitoring validation metrics every 100 steps.
+### 5.1 [fine-tune-kaggle.ipynb](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/fine-tune-kaggle.ipynb) (The Jupyter Training Notebook)
+* Contains the complete training logic, validation checks, and experimental code.
+* Loads the Hugging Face dataset, formats database schemas, tokenizes inputs using ChatML templates, applies the LoRA configuration, and executes supervised fine-tuning (SFT) training logs.
 
 ### 5.2 [inference.py](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/inference.py) (The CLI Inference Agent)
 * Designed for runtime prediction.
 * Accepts parameters for `--schema`, `--question`, `--base_model`, and `--adapter_id`.
 * Employs PEFT's `PeftModel.from_pretrained` to load the base Qwen model and apply the weights downloaded from your Hugging Face adapter repository: `thefounder03/nl2sql-lora-qwen2.5-0.5b`.
 * Automates prompt structuring and runs token-generation to output clean SQL.
-
-### 5.3 [load_model.py](file:///c:/Users/dhruv/Downloads/GROWN%20WINGS/fine-tunning/src/load_model.py) (Base Loader Utility)
-* A small script to pull the base model tokenizer and check basic GPU mapping. Used to test environmental configurations.
 
 ---
 

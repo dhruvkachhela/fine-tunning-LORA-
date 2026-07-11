@@ -168,11 +168,12 @@ The model occasionally exhibits logical inverse errors when compiling ordering o
 
 ```markdown
 ├── README.md                 # Project documentation and analysis
+├── TECHNICAL_REPORT.md       # Deep-dive technical report (Markdown)
+├── TECHNICAL_REPORT.pdf       # Compiled academic-style PDF report
 ├── requirements.txt          # Python package requirements
 └── src/
     ├── fine-tune-kaggle.ipynb # Original notebook with Kaggle logs and metrics
-    ├── fine_tune.py          # Clean training script (executable)
-    ├── load_model.py         # Utility to load the base model/tokenizer
+    ├── generate_pdf.py       # PDF report generator script
     └── inference.py          # CLI inference script to run NL2SQL queries
 ```
 

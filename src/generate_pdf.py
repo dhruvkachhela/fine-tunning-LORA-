@@ -261,7 +261,7 @@ def main():
     story.append(Paragraph(
         "<b>2.2 Data Pipeline Implementation</b><br/>"
         "Since Spider's base release does not contain raw text representations of schemas, we integrate a helper schema dataset "
-        "<i>richardr1126/spider-schema</i>. The preprocessing pipeline is implemented in <i>src/fine_tune.py</i> through the following functions:<br/>"
+        "<i>richardr1126/spider-schema</i>. The preprocessing pipeline is implemented in the Jupyter notebook (<i>src/fine-tune-kaggle.ipynb</i>) through the following functions:<br/>"
         "1. <b>format_schema(db_id, schema_lookup)</b>: Extracts the list of tables, columns, and foreign key rules for a database.<br/>"
         "2. <b>build_prompt(question, schema_text)</b>: Combines the schema context, the user question, and formatting rules. It appends the instruction: "
         "<i>'Respond with only the SQL query. No explanation, no markdown formatting.'</i><br/>"
@@ -351,10 +351,9 @@ lora_config = LoraConfig(
     # --- 5. CODEBASE WALKTHROUGH ---
     story.append(Paragraph("5. Detailed Code Walkthrough", h1_style))
     story.append(Paragraph(
-        "<b>5.1 Training Logic (fine_tune.py)</b><br/>"
-        "This script initializes the tokenizer, formats dataset rows to ChatML, wraps them using `apply_chat_template`, "
-        "and sets up the trainer. It uses <i>dataset_text_field='text'</i> to run SFT on fully pre-formatted strings, "
-        "saving checkpoints in <i>./nl2sql-lora-full</i>.",
+        "<b>5.1 The Jupyter Training Notebook (fine-tune-kaggle.ipynb)</b><br/>"
+        "Contains the complete training pipeline. It handles downloading/formatting schemas, applying ChatML prompt wrappers, "
+        "setting up the LoRA configuration, and running supervised training using the SFTTrainer.",
         body_style
     ))
     story.append(Paragraph(
